@@ -2,8 +2,7 @@ const db = require("../config/db");
 
 
 exports.getTransactions = async (userId) => {
-    const transactions = await db.from('transaction').where({ user_id: userId, is_deleted: 0 });
-    console.log("🚀 ~ exports.getTransactions= ~ transactions:", transactions)
+    const transactions = await db.from('transaction').where({ user_id: userId, is_deleted: 0 }).orderBy('date', 'desc');;
     return transactions;
 }
 
