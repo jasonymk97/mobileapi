@@ -12,7 +12,6 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./docs/openapi.json");
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth'); 
 const transactionsRouter = require('./routes/transaction');
 
@@ -48,7 +47,6 @@ app.use((req, res, next) => {
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/users', usersRouter);
 app.use('/transactions', transactionsRouter);
 
 // catch 404 and forward to error handler

@@ -7,29 +7,25 @@ const userModel = require('../models/userModel');
 
 router.post('/register', async (req, res) => {
     try {
-        const {email, password} = req.body;
+        const {email, password, username} = req.body;
 
         // validation
         const schema = Joi.object({
-            email: Joi.string().email().required().messages({
-            'string.email': 'Email must be a valid email address',
-            'any.required': 'Email is required'
-            }),
-            password: Joi.string().min(6).required().messages({
-            'string.min': 'Password must be at least 6 characters long',
-            'any.required': 'Password is required'
-            })
+            email: Joi.string().email().required(),
+            username: Joi.string().min(6).required(),
+            password: Joi.string().min(6).required(),
         });
 
         const validateResult = schema.validate({
             email,
             password,
+            username
           });
 
         if (validateResult.error) {
-            res.status(400).json({
+            res.status(200).json({
                 error: true,
-                message: "email or password are not valid"
+                message: "inputs are not valid"
             })
             return;
         }
@@ -38,7 +34,7 @@ router.post('/register', async (req, res) => {
         const user = await userModel.checkUser(email);
 
         if (user) {
-            res.status(400).json({
+            res.status(200).json({
                 error: true,
                 message: "email already exists"
             })
@@ -46,7 +42,7 @@ router.post('/register', async (req, res) => {
         }
         
         // register
-        await userModel.register(email, password);
+        await userModel.register(email, password, username);
 
         res.json({
             message: 'account is created successfully'
@@ -54,7 +50,7 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         res.json({ 
             error: true, 
-            message: error 
+            message: 'Sever Error' 
         });
     }
 });
@@ -76,7 +72,7 @@ router.post('/login', async (req, res) => {
           });
 
         if (validateResult.error) {
-            res.status(400).json({
+            res.status(200).json({
                 error: true,
                 message: "email and password should be provided"
             })
@@ -87,7 +83,7 @@ router.post('/login', async (req, res) => {
         const user = await userModel.checkUser(email);
 
         if (!user) {
-            res.status(400).json({
+            res.status(200).json({
                 error: true,
                 message: "email does not exist"
             })
@@ -96,10 +92,9 @@ router.post('/login', async (req, res) => {
 
         // check password
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log("🚀 ~ router.post ~ isMatch:", isMatch)
 
         if (!isMatch) {
-            res.status(400).json({
+            res.status(200).json({
                 error: true,
                 message: "password is incorrect"
             })
@@ -120,7 +115,7 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         res.json({ 
             error: true, 
-            message: error 
+            message: 'Sever Error' 
         });
     }
 });

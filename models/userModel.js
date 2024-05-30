@@ -6,13 +6,13 @@ exports.checkUser = async (email) => {
     return user;
 }
 
-exports.register = async (email, password) => {
+exports.register = async (email, password, username) => {
     // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
     
     const result = await db('user').insert({ 
         email, 
-        username: email,
+        username: username,
         password: hashedPassword 
     });
 }

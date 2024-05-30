@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
     });
 
     if (validateResult.error) {
-      res.status(400).json({
+      res.status(200).json({
         error: true,
         message: validateResult.error.details[0].message,
       })
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
   } catch (error) {
     res.json({
       error: true,
-      message: error
+      message: 'Sever Error' 
     });
   }
 });
@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res.json({
       error: true,
-      message: error
+      message: 'Sever Error' 
     });
   }
 });
@@ -80,7 +80,7 @@ router.get('/:id', async (req, res) => {
     const txn = await transactionModel.getTransaction(id);
 
     if (!txn) {
-      res.status(404).json({
+      res.status(200).json({
         error: true,
         message: 'Transaction not found'
       });
@@ -94,7 +94,7 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     res.json({
       error: true,
-      message: error
+      message: 'Sever Error' 
     });
   }
 });
@@ -106,7 +106,7 @@ router.delete('/:id', async (req, res) => {
 
     const txn = await transactionModel.getTransaction(id);
     if (!txn) {
-      res.status(404).json({
+      res.status(200).json({
         error: true,
         message: 'Transaction not found'
       });
@@ -122,7 +122,7 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     res.json({
       error: true,
-      message: error
+      message: 'Sever Error' 
     });
 
   }
@@ -152,7 +152,7 @@ router.put('/:id', async (req, res) => {
     });
 
     if (validateResult.error) {
-      res.status(400).json({
+      res.status(200).json({
         error: true,
         message: validateResult.error.details[0].message,
       })
@@ -169,7 +169,7 @@ router.put('/:id', async (req, res) => {
 
     const txn = await transactionModel.getTransaction(id);
     if (!txn) {
-      res.status(404).json({
+      res.status(200).json({
         error: true,
         message: 'Transaction not found'
       });
@@ -185,7 +185,7 @@ router.put('/:id', async (req, res) => {
   } catch (error) {
     res.json({
       error: true,
-      message: error
+      message: 'Sever Error' 
     });
   }
 });
